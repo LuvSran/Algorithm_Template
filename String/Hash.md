@@ -95,8 +95,8 @@ struct Hash{
   void Build(string& _s){
     int _n=(int)_s.size()-1;
     for(int i=1;i<=_n;++i){
-      H1[i]=H1[i-1]*base1+_s[i]-'a';
-      H2[i]=H2[i-1]*base2%mod+_s[i]-'a';
+      H1[i]=H1[i-1]*base1+_s[i];
+      H2[i]=H2[i-1]*base2%mod+_s[i];
     }
   }
   ull W_1(int l,int r){
@@ -123,7 +123,7 @@ struct Hash{
 	void build(string& s){
 		int _n=(int)s.size()-1;
 		val[0]=0;
-		for(int i=1;i<=_n;++i) val[i]=val[i-1]*base+s[i]-'a';
+		for(int i=1;i<=_n;++i) val[i]=val[i-1]*base+s[i];
 	}
 	ull getW(int l,int r){
 		return val[r]-val[l-1]*B[r-l+1];
