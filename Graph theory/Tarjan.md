@@ -116,48 +116,51 @@ Cut_edge<maxn> T;
 # 边双连通分量
 ```cpp
 template<int N> struct eDCC{ //考虑含重边
-    vector<pair<int,int>> adj[N];
-    vector<int> stk;
-    vector<int> bel;
-    int dfn[N],low[N];
-    int clk,eid,tot,n; //时间，边编号,边双数量
-    void Add(int u,int v){ //u,v之间连一条无向边
-        ++eid;
-        adj[u].push_back({v,2*eid});
-        adj[v].push_back({u,2*eid+1});
-    }
-    void dfs(int u,int uk){
-        dfn[u]=low[u]=++clk;
-        stk.push_back(u);
-        for(auto& [to,k]:adj[u]){
-            if(k==(uk^1)) continue; //不能走回父亲的边
-            if(dfn[to]==0){
-                dfs(to,k);
-                low[u]=min(low[u],low[to]);
-            }
-            else low[u]=min(low[u],dfn[to]);
-        }
-        if(dfn[u]==low[u]){
-            ++tot;
-            int v=-1;
-            do{
-                v=stk.back();
-                stk.pop_back();
-                bel[v]=tot;
-            }while(v!=u);
-        }
-    }
-    void Clear(int _n){ //Add()之前先Clear()
-        n=_n;
-        for(int i=0;i<=_n+3;++i) adj[i].clear();
-        stk.clear();
-        bel.assign(n+3,0);
-        tot=eid=clk=0;
-        fill(dfn,dfn+5+_n,0);
-        fill(low,low+5+_n,0);
-    }
-    void Run(){ for(int i=1;i<=n;++i) if(dfn[i]==0) dfs(i,-1); }
-    vector<int> Get(){ return bel;}
+    vector<pair<int,int>> adj[N];
+    vector<int> stk;
+    vector<int> bel;
+    vector<pair<int,int>> bridge;
+    int dfn[N],low[N];
+    int clk,eid,tot,n; //时间，边编号,边双数量
+    void Add(int u,int v){ //u,v之间连一条无向边
+        ++eid;
+        adj[u].push_back({v,2*eid});
+        adj[v].push_back({u,2*eid+1});
+    }
+    void dfs(int u,int uk){
+        dfn[u]=low[u]=++clk;
+        stk.push_back(u);
+        for(auto& [to,k]:adj[u]){
+            if(k==(uk^1)) continue; //不能走回父亲的边
+            if(dfn[to]==0){
+                dfs(to,k);
+                low[u]=min(low[u],low[to]);
+                if(low[to]>dfn[u]) bridge.push_back({u,to});
+            }
+            else low[u]=min(low[u],dfn[to]);
+        }
+        if(dfn[u]==low[u]){
+            ++tot;
+            int v=-1;
+            do{
+                v=stk.back();
+                stk.pop_back();
+                bel[v]=tot;
+            }while(v!=u);
+        }
+    }
+    void Clear(int _n){ //开始Add()之前先Clear()
+        n=_n;
+        for(int i=0;i<=_n+3;++i) adj[i].clear();
+        stk.clear();
+        bridge.clear();
+        bel.assign(n+3,0);
+        tot=eid=clk=0;
+        fill(dfn,dfn+5+_n,0);
+        fill(low,low+5+_n,0);
+    }
+    void Run(){ for(int i=1;i<=n;++i) if(dfn[i]==0) dfs(i,-1); }
+    vector<int> Get(){ return bel;}
 };
 eDCC<maxn> T;
 ```
