@@ -63,8 +63,6 @@ bool isPal(int l,int r){
     return T1.getw(l,l+len/2-1)==T2.getw(idx(r),idx(r-len/2+1));
 }
 ```
-# 哈希表/散列表
-取模将较大范围内的数据映射到较小范围内
 随机化哈希可用`mt19937_64`
 ```
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
