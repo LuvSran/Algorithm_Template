@@ -19,7 +19,7 @@ struct Matrix{
     vector<vector<ll>> mat;
     int n;
     Matrix(int n,ll _val=0) : n(n),mat(n+1, vector<ll>(n+1, _val)) {} //n*n矩阵，矩阵每一位初始值为val
-    void Set(vector<array<ll,3>> vc){ //{x,y,z}将mat[x][y]=z
+    void Set(const vector<array<ll,3>>& vc){ //{x,y,z}将mat[x][y]=z
         for(auto& [x,y,z]:vc) mat[x][y]=z;
     }
     Matrix operator*(const Matrix& other)const{
