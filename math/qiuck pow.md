@@ -34,15 +34,16 @@ struct Matrix{
         return res;
     }
     Matrix Mpow(ll k) { //返回矩阵的k次方
-        Matrix res(n,0);
-        for(int i=1;i<=n;++i) res.mat[i][i]=1;
-        Matrix base=*this;
-        while (k){
-            if(k&1) res=res*base;
-            base=base*base;
-            k>>=1;
-        }
-        return res;
+        if(k==1) return *this;
+        Matrix res=*this;
+        Matrix base= *this;
+        --k
+        while (k) {
+            if (k & 1) res = res * base;
+            base=base*base;
+            k >>= 1;
+        }
+        return res;
     }
 };
 ```
